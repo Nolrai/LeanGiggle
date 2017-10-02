@@ -1,3 +1,5 @@
+import .library.init.data.list
+
 
 section defs
 
@@ -41,9 +43,33 @@ def digrams_naive : list A -> list digram
 instance list_has_append (A : Type) : has_append (list A) :=
   has_append.mk list.append
 
-def group_by_eq : list A -> list (list A)
+universe u
+
+instance type_prod : has_mul (Type u) := has_mul.mk prod
+
+def split {T} (f : T -> bool) : list T -> ((list T) * (list T))
+| [] := ([], [])
+| (x::xs) :=
+  if f x 
+  then let (taken, after) := split xs in (x::taken, after)
+  else ([], x::xs)
+
+open list
+
+theorem split_length 
+  : forall l lx ly f
+  , (lx, ly) = split f l -> lx ++ ly = l 
+  := 
+begin induction l
+  , 
+end
+
+
+def group_by_eq {T} [ decidable_eq T ] : list T -> list (list T)
 | [] := []
-| (x::ys) := let (xs, ys') := list.split (= x) ys in (x::xs) :: group_by_eq ys' 
+| (x::ys) := let (xs, ys') := split (= x) ys in 
+have length ys' < length (x::ys), {apply split_length}
+(x::xs) :: group_by_eq ys' 
 
 def shrink_triples (l : list A) : list A := 
 let shrink (xs : list A) := list.take 2 xs ++ list.drop 3 xs  in
