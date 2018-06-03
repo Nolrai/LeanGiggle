@@ -74,7 +74,7 @@ instance pointwise_preorder {A : Type} [H : preorder T]
   , le_refl := begin apply (pointwise_relf H.le_refl) end
   , le_trans := pointwise_trans H.le_trans}
 
-section
+section functions_between
 variables {A B : Type} [preorder A] [preorder B]
 variables (f : A → B) (g : B -> A)
 
@@ -110,7 +110,7 @@ lemma left_adjoints_unique : injective (λ x y, @are_adjoint B A _ _ y x) :=
     ,   { rewrite fh, rewrite ← gh}
     ,   { rewrite gh, rewrite ← fh}
     end
-end
+end functions_between
 
 definition bounds_above [preorder T] (S : set T) (x : T) : Prop := 
     ∀ y, y ∈ S → y ≤ x
