@@ -1,6 +1,6 @@
+import why
+
 universe u
-
-
 
 inductive Fin : nat -> Type
 | zero : ∀ n, Fin (nat.succ n)
