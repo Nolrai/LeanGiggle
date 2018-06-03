@@ -32,3 +32,5 @@ def option_why.map
 
 instance option_why.functor {P} : functor (option_why P) :=
 {map := @option_why.map P}
+
+end
