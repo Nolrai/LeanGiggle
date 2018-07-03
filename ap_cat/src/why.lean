@@ -33,4 +33,11 @@ def option_why.map
 instance option_why.functor {P} : functor (option_why P) :=
 {map := @option_why.map P}
 
+def riddle  : Π (l : list bool) (pulls : nat) (poison : nat), list bool
+| l 0 poison := [poison >= 2]
+| l (nat.succ n) poison := do x <- l, riddle (list.erase l x) n (poison + if x then 1 else 0)
+
+
+
 end
+
